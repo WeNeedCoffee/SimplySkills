@@ -8,9 +8,11 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellSchool;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.util.HelperMethods;
@@ -44,23 +46,23 @@ public class InitiateAbilities {
             }
         }
     }
-    public static void passiveInitiateEmpower(PlayerEntity player, @Nullable MagicSchool school, @Nullable Set<? extends MagicSchool> schools) {
+    public static void passiveInitiateEmpower(PlayerEntity player, @Nullable SpellSchool school, @Nullable Set<? extends SpellSchool> schools) {
         int chance = SimplySkills.initiateConfig.passiveInitiateEmpowerChance;
         int duration = SimplySkills.initiateConfig.passiveInitiateEmpowerDuration;
         int amplifier = SimplySkills.initiateConfig.passiveInitiateEmpowerStacks;
         int amplifierMax = SimplySkills.initiateConfig.passiveInitiateEmpowerMaxStacks;
         List<StatusEffect> list = new ArrayList<>();
-        if (school == MagicSchool.ARCANE || (schools != null ? schools.contains(MagicSchool.ARCANE) : false))
+        if (school == SpellSchools.ARCANE || (schools != null ? schools.contains(SpellSchools.ARCANE) : false))
             list.add(EffectRegistry.ARCANEATTUNEMENT);
-        if (school == MagicSchool.SOUL || (schools != null ? schools.contains(MagicSchool.SOUL) : false))
+        if (school == SpellSchools.SOUL || (schools != null ? schools.contains(SpellSchools.SOUL) : false))
             list.add(EffectRegistry.SOULATTUNEMENT);
-        if (school == MagicSchool.HEALING || (schools != null ? schools.contains(MagicSchool.HEALING) : false))
+        if (school == SpellSchools.HEALING || (schools != null ? schools.contains(SpellSchools.HEALING) : false))
             list.add(EffectRegistry.HOLYATTUNEMENT);
-        if (school == MagicSchool.FIRE || (schools != null ? schools.contains(MagicSchool.FIRE) : false))
+        if (school == SpellSchools.FIRE || (schools != null ? schools.contains(SpellSchools.FIRE) : false))
             list.add(EffectRegistry.FIREATTUNEMENT);
-        if (school == MagicSchool.FROST || (schools != null ? schools.contains(MagicSchool.FROST) : false))
+        if (school == SpellSchools.FROST || (schools != null ? schools.contains(SpellSchools.FROST) : false))
             list.add(EffectRegistry.FROSTATTUNEMENT);
-        if (school == MagicSchool.LIGHTNING || (schools != null ? schools.contains(MagicSchool.LIGHTNING) : false))
+        if (school == SpellSchools.LIGHTNING || (schools != null ? schools.contains(SpellSchools.LIGHTNING) : false))
             list.add(EffectRegistry.LIGHTNINGATTUNEMENT);
 
         if (!list.isEmpty()) {
@@ -130,10 +132,16 @@ public class InitiateAbilities {
     public static void passiveInitiateEldritchEnfeeblement(PlayerEntity player, List<Entity> targets) {
         if (targets.isEmpty())
             return;
-        int critChance = (int) player.getAttributeValue(SpellAttributes.CRITICAL_CHANCE.attribute) - 100;
-        int critDamage = (int) player.getAttributeValue(SpellAttributes.CRITICAL_DAMAGE.attribute);
+        double  critDamage = 0;
+        double  critChance = 0;
+        if (Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_chance")) != null)
+            critChance = player.getAttributeValue(Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_chance")));
+        if (Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_damage")) != null)
+            critDamage = player.getAttributeValue(Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_damage")));
+        //int critChance = SpellPower. ;// (int) player.getAttributeValue(SpellAttributes.CRITICAL_CHANCE.attribute) - 100;
+        //int critDamage = (int) player.getAttributeValue(SpellAttributes.CRITICAL_DAMAGE.attribute);
         if (player.getRandom().nextInt(100) < critChance) {
-            player.heal(Math.min(3, critDamage / 100));
+            player.heal((float) Math.min(3, critDamage / 100));
         }
     }
 

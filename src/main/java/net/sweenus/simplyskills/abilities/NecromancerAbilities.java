@@ -14,8 +14,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.entities.GreaterDreadglareEntity;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.registry.EntityRegistry;
@@ -33,7 +33,7 @@ public class NecromancerAbilities {
     public static void effectNecromancerWinterborn(PlayerEntity player) {
         if (HelperMethods.isUnlocked("simplyskills:necromancer",
                 SkillReferencePosition.necromancerSpecialisationWinterborn, player)) {
-            double frostSpellPower = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute);
+            double frostSpellPower = SpellPower.getSpellPower(SpellSchools.FROST, player).baseValue();
             player.addStatusEffect(new StatusEffectInstance(EffectRegistry.SOULSHOCK, 220, (int) frostSpellPower, false ,false, false));
         }
     }
@@ -169,7 +169,7 @@ public class NecromancerAbilities {
                             if (minion instanceof GreaterDreadglareEntity)
                                 damageMulti = 6.4f;
                             le.damage(player.getWorld().getDamageSources().indirectMagic(player, player),
-                                    (float) player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute) * damageMulti);
+                                    (float) SpellPower.getSpellPower(SpellSchools.SOUL, player).baseValue() * damageMulti);
                             HelperMethods.spawnWaistHeightParticles((ServerWorld) minion.getWorld(), ParticleTypes.SMOKE, minion, le, 8);
                             le.timeUntilRegen = 0;
                         }
@@ -267,7 +267,7 @@ public class NecromancerAbilities {
     }
 
     private static void setMinionAttributes(PlayerEntity player, LivingEntity minion, double attackDamageMultiplier, double healthMultiplier) {
-        double attackDamage = 3 + (attackDamageMultiplier * player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute));
+        double attackDamage = 3 + (attackDamageMultiplier * SpellPower.getSpellPower(SpellSchools.SOUL, player).baseValue());
         EntityAttributeInstance attackAttribute = minion.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         if (attackAttribute != null) {
             attackAttribute.setBaseValue(attackDamage);

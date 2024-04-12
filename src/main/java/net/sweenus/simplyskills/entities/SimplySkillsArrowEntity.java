@@ -11,8 +11,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.util.HelperMethods;
 import net.sweenus.simplyskills.util.SkillReferencePosition;
 
@@ -45,11 +45,11 @@ public class SimplySkillsArrowEntity extends ArrowEntity {
                             if (HelperMethods.isUnlocked("simplyskills:ranger",
                                     SkillReferencePosition.rangerSpecialisationArrowRainElemental, player)) {
                                 if (this.random.nextInt(100) < 25)
-                                    le.damage(SpellDamageSource.player(MagicSchool.FIRE, player), 5);
+                                    le.damage(SpellDamageSource.player(SpellSchools.FIRE, player), 5);
                                 else if (this.random.nextInt(100) < 45)
-                                    le.damage(SpellDamageSource.player(MagicSchool.FROST, player), 5);
+                                    le.damage(SpellDamageSource.player(SpellSchools.FROST, player), 5);
                                 else if (this.random.nextInt(100) < 65)
-                                    le.damage(SpellDamageSource.player(MagicSchool.LIGHTNING, player), 5);
+                                    le.damage(SpellDamageSource.player(SpellSchools.LIGHTNING, player), 5);
                             }
 
                             this.discard();

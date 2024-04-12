@@ -11,8 +11,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.abilities.AscendancyAbilities;
 import net.sweenus.simplyskills.abilities.SignatureAbilities;
 import net.sweenus.simplyskills.abilities.compat.SimplySwordsGemEffects;
@@ -35,8 +35,8 @@ public class CataclysmEffect extends StatusEffect {
                 if (cataclysmEffect == null)
                     return;
                 String spellId = "simplyskills:cataclysm_comet";
-                if (player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute)
-                        > player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute))
+                if (SpellPower.getSpellPower(SpellSchools.FIRE, player).baseValue()
+                        > SpellPower.getSpellPower(SpellSchools.FROST, player).baseValue())
                     spellId = "simplyskills:cataclysm_meteor";
 
                 int initialDuration = 90; // Initial max duration of the effect

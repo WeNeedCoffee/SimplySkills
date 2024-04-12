@@ -7,6 +7,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.puffish.skillsmod.api.Category;
@@ -68,8 +71,20 @@ public class SimplySkills implements ModInitializer {
         return specialisations;
     }
 
+    public static EntityAttribute critChanceAttribute;
+    public static EntityAttribute critDamageAttribute;
+    public static EntityAttribute spellHasteAttribute;
+
     @Override
     public void onInitialize() {
+
+        // Spell power attribute IDs
+        if (Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_chance")) != null)
+            critChanceAttribute = Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_chance"));
+        if (Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_damage")) != null)
+            critDamageAttribute = Registries.ATTRIBUTE.get(new Identifier("spell_power:critical_damage"));
+        if (Registries.ATTRIBUTE.get(new Identifier("spell_power:spell_haste")) != null)
+            spellHasteAttribute = Registries.ATTRIBUTE.get(new Identifier("spell_power:spell_haste"));
 
         AutoConfig.register(ConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
         generalConfig = AutoConfig.getConfigHolder(ConfigWrapper.class).getConfig().client;

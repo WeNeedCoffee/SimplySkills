@@ -10,8 +10,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.registry.SoundRegistry;
 import net.sweenus.simplyskills.util.HelperMethods;
@@ -27,7 +27,7 @@ public class OverloadEffect extends StatusEffect {
         if (!livingEntity.getWorld().isClient()) {
 
             int radius = 3;
-            double damage = (livingEntity.getMaxHealth() - 6) * (1 + livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute));
+            double damage = (livingEntity.getMaxHealth() - 6) * (1 + SpellPower.getSpellPower(SpellSchools.SOUL, livingEntity).randomValue());
             DamageSource damageSource = livingEntity.getDamageSources().generic();
             DamageSource damageSourceMagic = livingEntity.getDamageSources().indirectMagic(livingEntity, livingEntity);
 

@@ -24,7 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.casting.SpellCast;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.abilities.compat.SimplySwordsGemEffects;
 import net.sweenus.simplyskills.network.CooldownPacket;
@@ -531,7 +532,7 @@ public class SignatureAbilities {
 
 
         // Calculations
-        double spellHaste = player.getAttributeValue(SpellAttributes.HASTE.attribute);
+        double spellHaste = SpellPower.getHaste(player);
         sendCooldown = cooldown - (((spellHaste - 100) * spellHasteCDReduce) * 100);
 
         if (sendCooldown < (minimumCD) && useSuccess) sendCooldown = minimumCD;

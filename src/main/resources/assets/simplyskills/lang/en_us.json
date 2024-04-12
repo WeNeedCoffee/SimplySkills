@@ -680,7 +680,7 @@
   "text.skills.spell_power_additive.title":"§a+3%§f [+] §7All Spell Damage",
 
   "text.skills.spell_fire_damage_additive+0.8%.title": "§a+0.8%§f [+] §7Fire Spell Damage",
-  "text.skills.spell_arcane_damage_additive+0.8%.title" : "§a+0.8%§f [+] §7Fire Spell Damage",
+  "text.skills.spell_arcane_damage_additive+0.8%.title" : "§a+0.8%§f [+] §7Arcane Spell Damage",
   "text.skills.spell_frost_damage_additive+0.8%.title": "§a+0.8%§f [+] §7Frost Spell Damage",
   "text.skills.spell_healing_power_additive+0.8%.title": "§a+0.8%§f [+] §7Healing Power",
   "text.skills.spell_lightning_damage_additive+0.8%.title": "§a+0.8%§f [+] §7Lightning Spell Damage",

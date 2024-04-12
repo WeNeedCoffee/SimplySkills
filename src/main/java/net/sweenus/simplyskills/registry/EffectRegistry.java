@@ -9,11 +9,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.puffish.skillsmod.server.setup.SkillsAttributes;
+import net.spell_engine.SpellEngineMod;
 import net.spell_engine.api.effect.ActionImpairing;
 import net.spell_engine.api.effect.EntityActionsAllowed;
 import net.spell_engine.api.effect.Synchronized;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.effects.*;
 
@@ -46,41 +47,41 @@ public class EffectRegistry {
     public static StatusEffect SPELLBREAKING= new SpellbreakingEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect EARTHSHAKER= new EarthshakerEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect ARCANEATTUNEMENT= new ArcaneAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute,
+            .addAttributeModifier(SpellSchools.ARCANE.attribute,
                     "8b724548-dbd9-4dbf-8ad5-9c0b7757dec5",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect FIREATTUNEMENT= new FireAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute,
+            .addAttributeModifier(SpellSchools.FIRE.attribute,
                     "5835e9c2-4182-4098-b9ef-23670c46cb4d",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect FROSTATTUNEMENT= new FrostAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FROST).attribute,
+            .addAttributeModifier(SpellSchools.FROST.attribute,
                     "caa82c97-9874-4f5e-84e4-37380bf756ec",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect LIGHTNINGATTUNEMENT= new LightningAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.LIGHTNING).attribute,
+            .addAttributeModifier(SpellSchools.LIGHTNING.attribute,
                     "7edc1ac1-c6c5-4a46-92e1-baf28abea256",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect SOULATTUNEMENT= new SoulAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute,
+            .addAttributeModifier(SpellSchools.SOUL.attribute,
                     "45da701e-e40a-4041-bd54-f06e283ad7cb",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect HOLYATTUNEMENT= new HolyAttunementEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute,
+            .addAttributeModifier(SpellSchools.HEALING.attribute,
                     "60125c3e-4980-4cc8-b54e-037b47185e2b",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect PRECISION= new PrecisionEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.CRITICAL_DAMAGE.attribute,
+            .addAttributeModifier(SimplySkills.critDamageAttribute,
                     "32a5a129-51a6-4a38-b78e-e7afb69f9e17",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.CRITICAL_CHANCE.attribute,
+            .addAttributeModifier(SimplySkills.critDamageAttribute,
                     "bb6233b1-4759-47d0-9044-d509b4bc6695",
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -125,36 +126,36 @@ public class EffectRegistry {
     public static StatusEffect REVEALED= new RevealedEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect BARRIER= new BarrierEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect SOULSHOCK= new SoulshockEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute,
+            .addAttributeModifier(SpellSchools.SOUL.attribute,
                     "f4f57190-f82f-4283-a4b9-a898382bcea7",
                     soulshockIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.LIGHTNING).attribute,
+            .addAttributeModifier(SpellSchools.LIGHTNING.attribute,
                     "f811acad-2542-4e5a-837f-a869251162ee",
                     soulshockIncrease,
                     EntityAttributeModifier.Operation.ADDITION);
     public static StatusEffect SPELLFORGED= new SoulshockEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute,
+            .addAttributeModifier(SpellSchools.SOUL.attribute,
                     "5d6e7b01-e11b-46ac-8a97-0ec497616982",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.LIGHTNING).attribute,
+            .addAttributeModifier(SpellSchools.LIGHTNING.attribute,
                     "dc0cea79-ffa6-4209-b851-952f60147b2c",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute,
+            .addAttributeModifier(SpellSchools.HEALING.attribute,
                     "fa5f66cd-ca9b-4da6-a4a8-3444a77156b7",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute,
+            .addAttributeModifier(SpellSchools.ARCANE.attribute,
                     "d7b58e45-df85-40d9-a78b-943dc8765f2a",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute,
+            .addAttributeModifier(SpellSchools.FIRE.attribute,
                     "3d183b4b-9bfb-4d4e-b7f0-bd8cf65a34fc",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FROST).attribute,
+            .addAttributeModifier(SpellSchools.FROST.attribute,
                     "5951bed4-b058-4320-8512-75c1be44bc33",
                     spellforgedIncrease,
                     EntityAttributeModifier.Operation.ADDITION);
@@ -174,11 +175,11 @@ public class EffectRegistry {
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
 
     public static StatusEffect OVERLOAD= new OverloadEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.CRITICAL_DAMAGE.attribute,
+            .addAttributeModifier(SimplySkills.critDamageAttribute,
                     "c937f985-c571-46e5-8339-b4ccf4c15442",
                     0.45,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.CRITICAL_CHANCE.attribute,
+            .addAttributeModifier(SimplySkills.critChanceAttribute,
                     "ad26be8b-db35-4d04-98db-d8943e4ac8be",
                     0.10,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -194,7 +195,7 @@ public class EffectRegistry {
                     "24e81380-108e-488b-9d48-995f852d8fba",
                     0.05,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.HASTE.attribute,
+            .addAttributeModifier(SimplySkills.spellHasteAttribute,
                     "812e38a7-9608-4a82-a8d7-6f6c8db2f4d8",
                     0.05,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -220,27 +221,27 @@ public class EffectRegistry {
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
 
     public static StatusEffect MAGICCIRCLE= new MagicCircleEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute,
+            .addAttributeModifier(SpellSchools.SOUL.attribute,
                     "962352c0-8bbb-4e09-b9b2-ce2570558368",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.LIGHTNING).attribute,
+            .addAttributeModifier(SpellSchools.LIGHTNING.attribute,
                     "c1366245-81fd-4848-988e-83f7903f80aa",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute,
+            .addAttributeModifier(SpellSchools.HEALING.attribute,
                     "c9efc316-50de-470f-8d11-1800066e106e",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute,
+            .addAttributeModifier(SpellSchools.ARCANE.attribute,
                     "525f0dd6-5d1f-4961-9a82-57ecd7fc4682",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute,
+            .addAttributeModifier(SpellSchools.FIRE.attribute,
                     "4de16daa-e56c-4414-83a5-9f957ce0566d",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FROST).attribute,
+            .addAttributeModifier(SpellSchools.FROST.attribute,
                     "ba74d1cf-3d6f-4904-9d51-5e070ae0bd7c",
                     0.3,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -264,7 +265,7 @@ public class EffectRegistry {
                     "9836b739-fb7b-404e-9927-9bdf74de1dae",
                     0.01,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute,
+            .addAttributeModifier(SpellSchools.HEALING.attribute,
                     "1ebefacf-9a1e-4a81-9387-56dd4207a47f",
                     0.01,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);

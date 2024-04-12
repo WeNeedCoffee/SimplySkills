@@ -13,8 +13,8 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Box;
 import net.paladins.effect.Effects;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.abilities.SignatureAbilities;
 import net.sweenus.simplyskills.abilities.compat.SimplySwordsGemEffects;
@@ -37,7 +37,7 @@ public class SacredOnslaughtEffect extends StatusEffect {
                 int velocity = SimplySkills.crusaderConfig.signatureCrusaderSacredOnslaughtVelocity;
                 int radius = SimplySkills.crusaderConfig.signatureCrusaderSacredOnslaughtRadius;
                 double damageMultiplier = SimplySkills.crusaderConfig.signatureCrusaderSacredOnslaughtDMGMultiplier;
-                double healing = (player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute) * damageMultiplier);
+                double healing = (SpellPower.getSpellPower(SpellSchools.HEALING, player).baseValue() * damageMultiplier);
                 int hitFrequency = 10;
                 int stunDuration = SimplySkills.crusaderConfig.signatureCrusaderSacredOnslaughtStunDuration;
 

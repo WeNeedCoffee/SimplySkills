@@ -2,7 +2,6 @@ package net.sweenus.simplyskills.mixins.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -10,7 +9,6 @@ import net.puffish.skillsmod.client.gui.SkillsScreen;
 import net.puffish.skillsmod.utils.Bounds2i;
 import net.sweenus.simplyskills.client.gui.TextureState;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

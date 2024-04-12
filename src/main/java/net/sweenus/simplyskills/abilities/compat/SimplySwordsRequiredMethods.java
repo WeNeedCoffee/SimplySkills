@@ -57,6 +57,7 @@ public class SimplySwordsRequiredMethods {
                 "simplyskills:might", null, 4,
                 "simplyskills:revealed", null, 0,
                 false, false);
+
     }
 
 }

@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import net.puffish.skillsmod.api.Category;
 import net.puffish.skillsmod.api.SkillsAPI;
 import net.spell_engine.internals.SpellRegistry;
-import net.spell_power.api.MagicSchool;
+import net.spell_power.api.SpellSchool;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.abilities.compat.SimplySwordsGemEffects;
 import net.sweenus.simplyskills.items.GraciousManuscript;
@@ -184,8 +184,8 @@ public class AbilityLogic {
 
     }
 
-    public static void onSpellCastEffects(PlayerEntity player, @Nullable List<Entity> targets,@Nullable Identifier spellId, @Nullable Set<? extends MagicSchool> schools) {
-        MagicSchool school = null;
+    public static void onSpellCastEffects(PlayerEntity player, @Nullable List<Entity> targets,@Nullable Identifier spellId, @Nullable Set<? extends SpellSchool> schools) {
+        SpellSchool school = null;
         if (spellId !=null)
             school = SpellRegistry.getSpell(spellId).school;
 
@@ -246,7 +246,7 @@ public class AbilityLogic {
                 ClericAbilities.passiveClericHealingWard(player, targets, spellId);
             }
 
-            if (school == MagicSchool.PHYSICAL_RANGED) {
+            if (school.id.toString().contains("physical_melee")) {
                 if (HelperMethods.isUnlocked("simplyskills:tree", SkillReferencePosition.wayfarerQuickfire, player))
                     HelperMethods.incrementStatusEffect(player, EffectRegistry.MARKSMANSHIP, 40, 1, 6);
                 AbilityEffects.effectRangerElementalArrows(player);

@@ -12,7 +12,8 @@
     "ServerPlayerEntityMixin",
     "SkillsModMixin",
     "SpellHelperMixin",
-    "SpellProjectileMixin"
+    "SpellProjectileMixin",
+    "ExternalSpellSchoolsMixin"
   ],
   "client": [
     "client.ArmorFeatureRendererMixin",

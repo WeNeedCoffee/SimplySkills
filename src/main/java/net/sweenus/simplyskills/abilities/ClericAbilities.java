@@ -19,8 +19,9 @@ import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.particle.Particles;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchool;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.effects.instance.SimplyStatusEffectInstance;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.util.HelperMethods;
@@ -40,7 +41,7 @@ public class ClericAbilities {
         int random = new Random().nextInt(100);
         int chance = 10;
         Spell spell = SpellRegistry.getSpell(spellId);
-        MagicSchool healingSchool = MagicSchool.HEALING;
+        SpellSchool healingSchool = SpellSchools.HEALING;
         if (random < chance) {
             targets.forEach(target -> {
                 if (target instanceof LivingEntity livingTarget && spell.school == healingSchool) {
@@ -58,7 +59,7 @@ public class ClericAbilities {
         if (spellId.toString().contains("holy_beam"))
             chance = 10;
         Spell spell = SpellRegistry.getSpell(spellId);
-        MagicSchool healingSchool = MagicSchool.HEALING;
+        SpellSchool healingSchool = SpellSchools.HEALING;
         if (random < chance && !targets.contains(player) && spell.school == healingSchool) {
             if (spellId.toString().contains("holy_beam"))
                 SignatureAbilities.castSpellEngineIndirectTarget(player, "paladins:heal", 10, player, null);
@@ -195,8 +196,7 @@ public class ClericAbilities {
         SpellCast.Action action = SpellCast.Action.CHANNEL;
         DamageSource damageSource = player.getDamageSources().indirectMagic(player, player);
         SpellHelper.performSpell(player.getWorld(), player, spellId, targets, action, 20);
-        float amount = (float) (player.getAttributeValue(SpellAttributes.
-                POWER.get(MagicSchool.HEALING).attribute) * damageMultiplier) / hostileTargets.size();
+        float amount = (float) (SpellPower.getSpellPower(SpellSchools.HEALING, player).randomValue() * damageMultiplier) / hostileTargets.size();
 
 
         hostileTargets.forEach(entity -> {

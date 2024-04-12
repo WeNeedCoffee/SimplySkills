@@ -6,7 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.spell_power.api.MagicSchool;
+import net.spell_power.api.SpellSchool;
 import net.sweenus.simplyskills.abilities.AbilityLogic;
 
 import java.util.Set;
@@ -18,7 +18,7 @@ public class AmethystImbuementEvent {
     }
 
     // This method will be called when a spell power cast event occurs
-    private static void onSpellPowerCast(World world, LivingEntity user, ItemStack stack, ScepterAugment spell, Set<? extends MagicSchool> schools) {
+    private static void onSpellPowerCast(World world, LivingEntity user, ItemStack stack, ScepterAugment spell, Set<? extends SpellSchool> schools) {
 
         if (user instanceof  PlayerEntity player) {
             //System.out.println("ScepterAugment to string is: " + spell.toString());

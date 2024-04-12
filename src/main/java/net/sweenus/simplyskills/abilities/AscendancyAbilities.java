@@ -15,8 +15,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.puffish.skillsmod.api.SkillsAPI;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.effects.instance.SimplyStatusEffectInstance;
 import net.sweenus.simplyskills.registry.EffectRegistry;
@@ -130,7 +130,7 @@ public class AscendancyAbilities {
         if (agonyEffect != null) {
             LivingEntity sourceEntity = agonyEffect.getSourceEntity();
             if (sourceEntity instanceof PlayerEntity sourcePlayer && AscendancyAbilities.getAscendancyPoints(sourcePlayer) > 29)
-                playerAttacker.heal((float) (0.1* sourcePlayer.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute)));
+                playerAttacker.heal((float) (0.1* SpellPower.getSpellPower(SpellSchools.HEALING, sourcePlayer).randomValue()));
         }
     }
     public static boolean torment(PlayerEntity player) {

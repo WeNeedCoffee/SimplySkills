@@ -11,8 +11,8 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.abilities.NecromancerAbilities;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.util.HelperMethods;
@@ -44,13 +44,13 @@ public class ShadowAuraEffect extends StatusEffect {
                             if (effectivePlayer != null && HelperMethods.checkFriendlyFire(le, effectivePlayer)) {
                                 le.timeUntilRegen = 0;
                                 le.damage(effectivePlayer.getWorld().getDamageSources().indirectMagic(effectivePlayer, effectivePlayer),
-                                        (float) effectivePlayer.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute) * ((float) amplifier / 5));
+                                        (float) SpellPower.getSpellPower(SpellSchools.SOUL, effectivePlayer).randomValue() * ((float) amplifier / 5));
                                 HelperMethods.spawnWaistHeightParticles((ServerWorld) livingEntity.getWorld(), ParticleTypes.SMOKE, livingEntity, le, 5);
                                 le.timeUntilRegen = 0;
                             }
                         });
                 if (effectivePlayer != null) {
-                    float damage = (1 + (float) effectivePlayer.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute) * ((float) amplifier / 10));
+                    float damage = (1 + (float) SpellPower.getSpellPower(SpellSchools.SOUL, effectivePlayer).randomValue() * ((float) amplifier / 10));
                     if ((livingEntity.getHealth() - (damage * 2)) < 0 && livingEntity instanceof TameableEntity minion) {
                         NecromancerAbilities.effectShadowCombust(effectivePlayer, minion);
                         minion.removeStatusEffect(EffectRegistry.SHADOWAURA);

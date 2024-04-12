@@ -1,7 +1,6 @@
 package net.sweenus.simplyskills.util;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +24,6 @@ import net.minecraft.scoreboard.AbstractTeam;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -38,8 +36,8 @@ import net.puffish.skillsmod.api.Category;
 import net.puffish.skillsmod.api.Skill;
 import net.puffish.skillsmod.api.SkillsAPI;
 import net.puffish.skillsmod.server.setup.SkillsAttributes;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.SpellAttributes;
+import net.spell_power.api.SpellPower;
+import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.network.ModPacketHandler;
 
@@ -618,12 +616,12 @@ public class HelperMethods {
 
     public static double getHighestAttributeValue(PlayerEntity player) {
         double attackDamage = player.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-        double toughness = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute);
-        double fire = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute);
-        double arcane = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute);
-        double soul = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.SOUL).attribute);
-        double healing = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute);
-        double lightning = player.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.LIGHTNING).attribute);
+        double toughness = SpellPower.getSpellPower(SpellSchools.FROST, player).baseValue();
+        double fire = SpellPower.getSpellPower(SpellSchools.FIRE, player).baseValue();
+        double arcane = SpellPower.getSpellPower(SpellSchools.ARCANE, player).baseValue();
+        double soul = SpellPower.getSpellPower(SpellSchools.SOUL, player).baseValue();
+        double healing = SpellPower.getSpellPower(SpellSchools.HEALING, player).baseValue();
+        double lightning = SpellPower.getSpellPower(SpellSchools.LIGHTNING, player).baseValue();
         double ranged = player.getAttributeValue(SkillsAttributes.RANGED_DAMAGE);
 
         Double[] attributeValues = {attackDamage, toughness, fire, arcane, soul, healing, lightning, ranged};
