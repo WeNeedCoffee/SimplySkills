@@ -11,6 +11,7 @@ import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.abilities.AbilityLogic;
 import net.sweenus.simplyskills.network.ModPacketHandler;
 import net.sweenus.simplyskills.registry.SoundRegistry;
+import net.sweenus.simplyskills.util.HelperMethods;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,8 +27,8 @@ public class SkillsModMixin {
     public void simplyskills$tryUnlockSkill(ServerPlayerEntity player, Identifier categoryId, String skillId, boolean force, CallbackInfo ci) {
 
         //Sound Event on skill unlock
-        if (!SkillsAPI.getCategory(categoryId).get().getUnlockedSkills(player).toString().contains(skillId)
-        && SkillsAPI.getCategory(categoryId).get().getPointsLeft(player) > 0) {
+        var category = SkillsAPI.getCategory(categoryId).orElseThrow();
+        if (!HelperMethods.hasUnlockedSkill(category, skillId, player) && category.getPointsLeft(player) > 0) {
 
             double choose_pitch = Math.random() * 1.3;
             List<SoundEvent> sounds = new ArrayList<>();
@@ -41,10 +42,9 @@ public class SkillsModMixin {
             player.getWorld().playSoundFromEntity(null, player, sound,
                     SoundCategory.PLAYERS, 0.3f, (float) choose_pitch);
 
-            if (SkillsAPI.getCategory(categoryId).get().getUnlockedSkills(player).size() > 40 && categoryId.equals(new Identifier("simplyskills:tree"))) {
-                Identifier ascendancy = new Identifier(SimplySkills.MOD_ID, "ascendancy");
-                if (SkillsAPI.getCategory(ascendancy).isPresent())
-                    SkillsAPI.getCategory(ascendancy).get().unlock(player);
+            if (category.streamUnlockedSkills(player).count() > 40 && categoryId.equals(new Identifier("simplyskills:tree"))) {
+                SkillsAPI.getCategory(new Identifier(SimplySkills.MOD_ID, "ascendancy"))
+                        .ifPresent(ascendancy -> ascendancy.unlock(player));
             }
 
 

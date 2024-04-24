@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
-import net.puffish.skillsmod.api.Category;
 import net.puffish.skillsmod.api.SkillsAPI;
 import net.sweenus.simplyskills.SimplySkills;
 
@@ -170,12 +169,9 @@ public class DynamicDamage {
     }
 
     public static int getSpentPoints(ServerPlayerEntity player) {
-        List<Category> unlockedCategories = SkillsAPI.getUnlockedCategories(player);
-        int count = 0;
-        for (Category category : unlockedCategories) {
-            count += category.getUnlockedSkills(player).size();
-        }
-        return count;
+        return SkillsAPI.streamUnlockedCategories(player)
+                .mapToInt(category -> (int) category.streamUnlockedSkills(player).count())
+                .sum();
     }
 
 

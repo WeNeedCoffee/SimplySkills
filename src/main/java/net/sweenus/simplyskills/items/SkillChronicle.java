@@ -70,24 +70,21 @@ public class SkillChronicle extends Item {
         if (!world.isClient && (user instanceof PlayerEntity player)) {
             if ((user instanceof ServerPlayerEntity serverUser) && remainingUseTicks < 35) {
 
-                List<Category> unlockedCategories = SkillsAPI.getUnlockedCategories(serverUser);
                 int pointsRemaining = 0;
                 boolean hasSpentPoints = false;
                 boolean success = false;
 
-                for (Category uc : unlockedCategories) {
+                for (Category uc : (Iterable<Category>) SkillsAPI.streamUnlockedCategories(serverUser)::iterator) {
 
                     //Check for points spent in base tree
                     if (FabricLoader.getInstance().isModLoaded("prominent") && uc.getId().toString().equals("puffish_skills:prom")) {
                         pointsRemaining = uc.getPointsLeft(serverUser);
-                        Collection<Skill> unlockedSkills = uc.getUnlockedSkills(serverUser);
-                        hasSpentPoints = !unlockedSkills.isEmpty();
+                        hasSpentPoints = uc.streamUnlockedSkills(serverUser).findAny().isPresent();
                         //System.out.println("Checking if we have skills unlocked");
                     }
                     else if (!FabricLoader.getInstance().isModLoaded("prominent") && uc.getId().toString().equals("simplyskills:tree")) {
                         pointsRemaining = uc.getPointsLeft(serverUser);
-                        Collection<Skill> unlockedSkills = uc.getUnlockedSkills(serverUser);
-                        hasSpentPoints = !unlockedSkills.isEmpty();
+                        hasSpentPoints = uc.streamUnlockedSkills(serverUser).findAny().isPresent();
                         //System.out.println("Checking if we have skills unlocked");
                     }
                 }

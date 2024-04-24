@@ -5,13 +5,15 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.puffish.skillsmod.client.data.ClientCategoryData;
 import net.puffish.skillsmod.client.gui.SkillsScreen;
-import net.puffish.skillsmod.utils.Bounds2i;
+import net.puffish.skillsmod.util.Bounds2i;
 import net.sweenus.simplyskills.client.gui.TextureState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,38 +103,14 @@ public abstract class SkillsScreenMixin {
     }*/
 
     // MAIN
-    @Redirect(method = "drawContentWithCategory(Lnet/minecraft/client/gui/DrawContext;DDLnet/puffish/skillsmod/client/data/ClientSkillCategoryData;)V",
+    @Inject(method = "drawContentWithCategory(Lnet/minecraft/client/gui/DrawContext;DDLnet/puffish/skillsmod/client/data/ClientCategoryData;)V",
             at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIFFIIII)V"))
-    private void redirectDrawTexture(DrawContext context, Identifier texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-        SkillsScreen screen = (SkillsScreen) (Object) this;
-        SkillsScreenAccessor accessor = (SkillsScreenAccessor) screen;
+                    shift = At.Shift.AFTER,
+                    target = "Lnet/puffish/skillsmod/client/gui/SkillsScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;Lnet/puffish/skillsmod/client/config/ClientBackgroundConfig;)V"))
+    private void injectDrawBackground(DrawContext context, double mouseX, double mouseY, ClientCategoryData activeCategoryData, CallbackInfo ci) {
+        SkillsScreenAccessor accessor = (SkillsScreenAccessor) this;
         Bounds2i bounds = accessor.getBounds();
-        // Original texture dimensions
-        int originalTextureWidth = 5120;
-        int originalTextureHeight = 1440;
 
-        // Calculate the aspect ratio of the texture
-        float aspectRatio = (float) originalTextureWidth / (float) originalTextureHeight;
-
-        // New width and height based on bounds height while maintaining aspect ratio
-        int newTextureHeight = bounds.height(); // new height
-        int newTextureWidth = (int) (newTextureHeight * aspectRatio);
-
-        // Calculate the center position of the bounds
-        int centerX = bounds.min().x + bounds.width() / 2;
-        int centerY = bounds.min().y + bounds.height() / 2;
-
-        // Adjust x and y to make the image's center align with the center of the bounds
-        int newX = centerX - newTextureWidth / 2;
-        int newY = centerY - newTextureHeight / 2;
-
-        // Draw a black rectangle behind the texture
-        int colorBlack = 0xFF000000; // ARGB format for opaque black
-        context.fill(x, y, x + bounds.width(), y + bounds.height(), colorBlack);
-
-        // Draw the texture centered at the specified point
-        context.drawTexture(texture, newX, newY, u, v, newTextureWidth, newTextureHeight, newTextureWidth, newTextureHeight);
         // Don't draw star systems when prominent is loaded
         if (!FabricLoader.getInstance().isModLoaded("prominent"))
             drawParallaxTextures(context, bounds);
@@ -140,75 +118,19 @@ public abstract class SkillsScreenMixin {
 
     @Unique
     private void drawParallaxTextures(DrawContext context, Bounds2i bounds) {
-        Identifier parallaxTexture1 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_01.png");
-        Identifier parallaxTexture2 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_02.png");
-        Identifier parallaxTexture3 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_03.png");
-        Identifier parallaxTexture4 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_04.png");
-        Identifier parallaxTexture5 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_05.png");
-        Identifier parallaxTexture6 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_06.png");
-        Identifier parallaxTexture7 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_07.png");
-        Identifier parallaxTexture8 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_08.png");
-        Identifier parallaxTexture9 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_09.png");
-        Identifier parallaxTexture10 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_10.png");
-        Identifier parallaxTexture11 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_11.png");
-        Identifier parallaxTexture12 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_12.png");
-        Identifier parallaxTexture13 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_13.png");
-        Identifier parallaxTexture14 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_14.png");
-        Identifier parallaxTexture15 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_15.png");
-        Identifier parallaxTexture16 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_16.png");
-        Identifier parallaxTexture17 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_17.png");
-        Identifier parallaxTexture18 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_18.png");
-        Identifier parallaxTexture19 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_19.png");
-        Identifier parallaxTexture20 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_20.png");
-        Identifier parallaxTexture21 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_21.png");
-        Identifier parallaxTexture22 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_22.png");
-        Identifier parallaxTexture23 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_23.png");
-        Identifier parallaxTexture24 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_24.png");
-        Identifier parallaxTexture25 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_25.png");
-        Identifier parallaxTexture26 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_26.png");
-        Identifier parallaxTexture27 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_27.png");
-        Identifier parallaxTexture28 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_28.png");
-        Identifier parallaxTexture29 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_29.png");
-        Identifier parallaxTexture30 = new Identifier("simplyskills", "textures/backgrounds/decor/planet_30.png");
 
         long currentTime = System.currentTimeMillis();
 
-        updateAndDrawAnimatedTexture(context, parallaxTexture1, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture2, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture3, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture4, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture5, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture6, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture7, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture8, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture9, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture10, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture11, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture12, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture13, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture14, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture15, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture16, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture17, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture18, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture19, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture20, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture21, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture22, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture23, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture24, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture25, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture26, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture27, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture28, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture29, bounds, currentTime);
-        updateAndDrawAnimatedTexture(context, parallaxTexture30, bounds, currentTime);
+        for(int i = 1; i <= 30; i++){
+            Identifier parallaxTexture = new Identifier("simplyskills", String.format("textures/backgrounds/decor/planet_%02d.png", i));
+            updateAndDrawAnimatedTexture(context, parallaxTexture, bounds, currentTime);
+        }
+
+        updateAndDrawCloudsTexture(context, bounds);
     }
 
     @Unique
     private void updateAndDrawAnimatedTexture(DrawContext context, Identifier texture, Bounds2i bounds, long currentTime) {
-        if (cloudsX == 0)
-            cloudsX = -bounds.width();
         int frameCount = 120;
         int spriteSheetWidth = 7680;
         int frameWidth = spriteSheetWidth / frameCount;
@@ -254,7 +176,6 @@ public abstract class SkillsScreenMixin {
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         matrixStack.pop();
-        updateAndDrawCloudsTexture(context, bounds);
     }
 
     @Unique
@@ -282,10 +203,12 @@ public abstract class SkillsScreenMixin {
 
     @Unique
     private void updateAndDrawCloudsTexture(DrawContext context, Bounds2i bounds) {
+        if (cloudsX == 0)
+            cloudsX = -bounds.width();
         if (selectedCloudsTexture == null) {
             selectRandomCloudsTexture();
         }
-        float cloudsSpeed = 0.001f;
+        float cloudsSpeed = 0.05f;
         float newX = cloudsX + cloudsSpeed;
         if (newX <= -bounds.width()) {
             newX = -bounds.width();
@@ -299,7 +222,7 @@ public abstract class SkillsScreenMixin {
         // Set partial transparency
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.1F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.5F);
         int cloudsHeight = 1440;
         context.drawTexture(selectedCloudsTexture, (int) cloudsX, bounds.min().y, 0, 0, bounds.width() + 10240, cloudsHeight, bounds.width() + 10240, cloudsHeight);
         RenderSystem.disableBlend();

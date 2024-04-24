@@ -14,10 +14,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.puffish.skillsmod.api.SkillsAPI;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.SpellSchools;
-import net.sweenus.simplyskills.SimplySkills;
 import net.sweenus.simplyskills.effects.instance.SimplyStatusEffectInstance;
 import net.sweenus.simplyskills.registry.EffectRegistry;
 import net.sweenus.simplyskills.registry.SoundRegistry;
@@ -37,10 +35,7 @@ public class AscendancyAbilities {
                 } // Scale abilities with Corruption in Prominence
             }
 
-            Identifier category = new Identifier(SimplySkills.MOD_ID, "ascendancy");
-            if (SkillsAPI.getCategory(category).isPresent() && !SkillsAPI.getCategory(category).get().getUnlockedSkills(serverPlayer).isEmpty()) {
-                return SkillsAPI.getCategory(category).get().getUnlockedSkills(serverPlayer).size();
-            }
+            return HelperMethods.countUnlockedSkills("ascendancy", serverPlayer);
         }
         return 0;
     }

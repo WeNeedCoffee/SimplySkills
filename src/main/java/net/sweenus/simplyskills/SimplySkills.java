@@ -125,10 +125,8 @@ public class SimplySkills implements ModInitializer {
     }
 
     private void processPlayer(ServerPlayerEntity player) {
-        List<Category> unlockedCategories = SkillsAPI.getUnlockedCategories(player);
-        if (!unlockedCategories.isEmpty()) {
-            unlockedCategories.forEach(category -> processCategory(player, category));
-        }
+        SkillsAPI.streamUnlockedCategories(player)
+                .forEach(category -> processCategory(player, category));
     }
 
     private void processCategory(ServerPlayerEntity player, Category category) {

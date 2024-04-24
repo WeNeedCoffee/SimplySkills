@@ -8,7 +8,7 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.puffish.skillsmod.server.setup.SkillsAttributes;
+import net.puffish.attributesmod.AttributesMod;
 import net.spell_engine.SpellEngineMod;
 import net.spell_engine.api.effect.ActionImpairing;
 import net.spell_engine.api.effect.EntityActionsAllowed;
@@ -86,11 +86,11 @@ public class EffectRegistry {
                     0.02,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect DEATHMARK= new DeathMarkEffect(StatusEffectCategory.HARMFUL, 3124687)
-            .addAttributeModifier(SkillsAttributes.RESISTANCE,
+            .addAttributeModifier(AttributesMod.RESISTANCE,
                     "325dbaa9-84c5-4cea-aca1-88b8dc585c3e",
                     -0.25,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
-            .addAttributeModifier(SkillsAttributes.HEALING,
+            .addAttributeModifier(AttributesMod.HEALING,
                     "5e2ff54c-9698-4ba0-8320-9ba6e9f2b394",
                     -0.25,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -106,7 +106,7 @@ public class EffectRegistry {
                     mightIncrease,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect MARKSMANSHIP= new MarksmanshipEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SkillsAttributes.RANGED_DAMAGE,
+            .addAttributeModifier(AttributesMod.RANGED_DAMAGE,
                     "d6702be1-2e6e-44ba-b325-41a7da2ca6b3",
                     marksmanshipIncrease,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
@@ -187,7 +187,7 @@ public class EffectRegistry {
     public static StatusEffect VITALITYBOND= new VitalityBondEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect ANOINTED= new AnointedEffect(StatusEffectCategory.BENEFICIAL, 3124687);
     public static StatusEffect AGILE= new AgileEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SkillsAttributes.RANGED_DAMAGE,
+            .addAttributeModifier(AttributesMod.RANGED_DAMAGE,
                     "6fa231ce-882a-4163-b941-452ec1e80f39",
                     0.05,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -270,7 +270,7 @@ public class EffectRegistry {
                     0.01,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
     public static StatusEffect FOCUS= new FocusEffect(StatusEffectCategory.BENEFICIAL, 3124687)
-            .addAttributeModifier(SkillsAttributes.RANGED_DAMAGE,
+            .addAttributeModifier(AttributesMod.RANGED_DAMAGE,
                     "127a2308-5cd7-4b28-b52d-71cde1d2a9da",
                     0.2,
                     EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
