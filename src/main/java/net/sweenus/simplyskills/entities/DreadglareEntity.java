@@ -15,8 +15,10 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -27,6 +29,8 @@ import net.sweenus.simplyskills.entities.ai.DirectionalFlightMoveControl;
 import net.sweenus.simplyskills.registry.SoundRegistry;
 import net.sweenus.simplyskills.util.HelperMethods;
 import net.sweenus.simplyskills.util.SkillReferencePosition;
+import net.sweenus.simplyswords.config.Config;
+import net.sweenus.simplyswords.config.ConfigDefaultValues;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -62,6 +66,35 @@ public class DreadglareEntity extends TameableEntity implements Angerable, Flutt
             if (this.age > lifespan || (this.age > 120 && (this.getOwner() == null || ownerNotInWorld))) {
                 this.damage(this.getDamageSources().generic(), this.getMaxHealth());
                 this.remove(RemovalReason.UNLOADED_WITH_PLAYER);
+            }
+
+            if (this.getTarget() != null && this.getOwnerUuid() != null) {
+                PlayerEntity owner = this.getWorld().getPlayerByUuid(this.getOwnerUuid());
+                if (owner != null && this.getTarget() != owner) {
+                    Vec3d entityLookVec = this.getRotationVec(1.0F);
+                    Vec3d toTargetVec = this.getTarget().getPos().subtract(this.getPos()).normalize();
+                    double dotProduct = entityLookVec.dotProduct(toTargetVec);
+                    double threshold = Math.cos(Math.toRadians(15)); // Tolerance
+
+                    if (dotProduct > threshold && this.distanceTo(getTarget()) > 2) {
+                        float damage = (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 2;
+                        float distance = this.distanceTo(getTarget());
+                        DamageSource damageSource = this.getDamageSources().playerAttack(owner);
+                        World world = this.getWorld();
+
+                        int timeDifference = this.getRandom().nextInt(15);
+
+                        if (this.age % (15 + timeDifference) == 0) {
+                            world.playSound(null, this.getBlockPos(), SoundEvents.ENTITY_WARDEN_SONIC_BOOM,
+                                    this.getSoundCategory(), 0.4f, 1.6f);
+                            HelperMethods.spawnDirectionalParticles((ServerWorld) world, ParticleTypes.SONIC_BOOM, this, 5, distance);
+                            HelperMethods.spawnDirectionalParticles((ServerWorld) world, ParticleTypes.POOF, this, 5, distance);
+                            HelperMethods.damageEntitiesInTrajectory((ServerWorld) world, this, owner, distance, damage, damageSource);
+                            this.setVelocity(this.getRotationVector().negate().multiply(+0.8));
+                            this.setVelocity(this.getVelocity().x, 0, this.getVelocity().z);
+                        }
+                    }
+                }
             }
 
 

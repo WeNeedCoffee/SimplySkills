@@ -93,7 +93,8 @@ public abstract class ServerPlayerEntityMixin {
             //Passive Rage
             if (HelperMethods.isUnlocked("simplyskills:tree",
                     SkillReferencePosition.berserkerPath, serverPlayer)) {
-                HelperMethods.incrementStatusEffect(player, EffectRegistry.RAGE, 300, 1, 99);
+                if (!player.isInvulnerableTo(source))
+                    HelperMethods.incrementStatusEffect(player, EffectRegistry.RAGE, 300, 1, 99);
             }
 
             //Cleric Signature Anoint Weapon Undying

@@ -1354,7 +1354,7 @@
   "text.skills.berserkerSignatureBerserkingLeapPull.description":"§7Leap Slam now pulls nearby enemies instead of knocking them back.",
 
   "text.skills.necromancerSignatureSummoningRitual.title":"Signature Ability: §6[Summoning Ritual]§7",
-  "text.skills.necromancerSignatureSummoningRitual.description":"§7\nPerform a ritual to summon forth an undead minion.\n\nBy default, this ability summons forth a §fDreadglare§7. An airborne minion that swarms its enemies and deals melee physical damage.\n\nMinion damage scales with your Soul Spell Power. Minions inherit a portion of your max health.\n\nMinions expire after 120s and must be re-summoned.\n\n§a120s Cooldown§7",
+  "text.skills.necromancerSignatureSummoningRitual.description":"§7\nPerform a ritual to summon forth an undead minion.\n\nBy default, this ability summons forth a §fDreadglare§7. An airborne minion that swarms its enemies, dealing melee physical damage and using ranged sonic attacks.\n\nMinion damage scales with your Soul Spell Power. Minions inherit a portion of your max health.\n\nMinions expire after 120s and must be re-summoned.\n\n§a120s Cooldown§7",
 
   "text.skills.necromancerNecroticFortification.title":"§f[Necrotic Fortification]",
   "text.skills.necromancerNecroticFortification.description":"§7Minions now inherit half of your Armor & Armor Toughness attributes.",

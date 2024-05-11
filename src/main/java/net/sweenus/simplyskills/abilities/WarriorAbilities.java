@@ -42,7 +42,7 @@ public class WarriorAbilities {
                 if (player.hasStatusEffect(StatusEffects.REGENERATION)
                         && player.getStatusEffect(StatusEffects.REGENERATION).getAmplifier() > 0)
                     HelperMethods.incrementStatusEffect(player, EffectRegistry.EXHAUSTION,
-                            deathDefyFrequency + 60, regen +10, 99);
+                            deathDefyFrequency + 60, regen +1, 49);
             }
         }
     }
@@ -77,7 +77,7 @@ public class WarriorAbilities {
         int frenzyDuration = SimplySkills.warriorConfig.passiveWarriorFrenzyExhaustionDuration;
         int frenzyStacks = SimplySkills.warriorConfig.passiveWarriorFrenzyExhaustionStacks;
 
-        HelperMethods.incrementStatusEffect(player, EffectRegistry.EXHAUSTION, frenzyDuration, frenzyStacks, 99);
+        HelperMethods.incrementStatusEffect(player, EffectRegistry.EXHAUSTION, frenzyDuration, frenzyStacks, 79);
     }
 
     public static void passiveWarriorCarnage(PlayerEntity player) {
