@@ -3,7 +3,7 @@ package net.sweenus.simplyskills.mixins;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.puffish.skillsmod.server.setup.SkillsAttributes;
+import net.puffish.attributesmod.AttributesMod;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +23,7 @@ public abstract class ExternalSpellSchoolsMixin {
             cir.setReturnValue(rangedDamage);
         } else {
             // Attribute used when Ranged Weapon API is not loaded
-            cir.setReturnValue(SkillsAttributes.RANGED_DAMAGE);
+            cir.setReturnValue(AttributesMod.RANGED_DAMAGE);
         }
     }
 

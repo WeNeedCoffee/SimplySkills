@@ -39,10 +39,7 @@ public class ProminenceAbilities {
                 } // Scale abilities with Corruption in Prominence
             }
 
-            Identifier category = new Identifier(SimplySkills.MOD_ID, "ascendancy");
-            if (SkillsAPI.getCategory(category).isPresent() && !SkillsAPI.getCategory(category).get().getUnlockedSkills(serverPlayer).isEmpty()) {
-                return SkillsAPI.getCategory(category).get().getUnlockedSkills(serverPlayer).size();
-            }
+            return HelperMethods.countUnlockedSkills("ascendancy", serverPlayer);
         }
         return 0;
     }

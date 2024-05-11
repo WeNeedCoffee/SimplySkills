@@ -23,7 +23,6 @@ import net.sweenus.simplyskills.util.SkillReferencePosition;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -44,8 +43,7 @@ public class AbilityLogic {
                 //System.out.println("Comparing " + categoryID + " against " + s);
                 if (categoryID.contains(s)) {
 
-                    Collection<Category> categories = SkillsAPI.getUnlockedCategories((ServerPlayerEntity) player);
-                    for (Category value : categories) {
+                    for (Category value : (Iterable<Category>) SkillsAPI.streamUnlockedCategories((ServerPlayerEntity) player)::iterator) {
                         if (net.sweenus.simplyskills.util.HelperMethods.stringContainsAny(value.getId().toString(), SimplySkills.getSpecialisations())) {
                             //System.out.println(player + " attempted to unlock a second specialisation. Denied.");
                             return true;

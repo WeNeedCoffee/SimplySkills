@@ -1,8 +1,8 @@
 package net.sweenus.simplyskills.mixins.client;
 
-import net.puffish.skillsmod.client.data.ClientSkillCategoryData;
+import net.puffish.skillsmod.client.data.ClientCategoryData;
 import net.puffish.skillsmod.client.gui.SkillsScreen;
-import net.puffish.skillsmod.utils.Bounds2i;
+import net.puffish.skillsmod.util.Bounds2i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -65,10 +65,10 @@ public interface SkillsScreenAccessor {
     @Accessor("scale")
     void setScale(float scale);
 
-    @Accessor("optActiveCategory")
-    Optional<ClientSkillCategoryData> getOptActiveCategory();
-    @Accessor("optActiveCategory")
-    void setOptActiveCategory(Optional<ClientSkillCategoryData> optActiveCategory);
+    @Accessor("optActiveCategoryData")
+    Optional<ClientCategoryData> getOptActiveCategoryData();
+    @Accessor("optActiveCategoryData")
+    void setOptActiveCategoryData(Optional<ClientCategoryData> optActiveCategory);
 
     // Add other accessors as needed
 }

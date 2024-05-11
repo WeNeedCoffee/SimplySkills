@@ -1,50 +1,62 @@
 package net.sweenus.simplyskills.rewards;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeRegistry;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.puffish.skillsmod.SkillsMod;
 import net.puffish.skillsmod.api.SkillsAPI;
-import net.puffish.skillsmod.api.config.ConfigContext;
-import net.puffish.skillsmod.api.json.JsonElementWrapper;
-import net.puffish.skillsmod.api.json.JsonObjectWrapper;
-import net.puffish.skillsmod.api.rewards.Reward;
-import net.puffish.skillsmod.api.rewards.RewardContext;
-import net.puffish.skillsmod.api.utils.Failure;
-import net.puffish.skillsmod.api.utils.JsonParseUtils;
-import net.puffish.skillsmod.api.utils.Result;
+import net.puffish.skillsmod.api.json.JsonElement;
+import net.puffish.skillsmod.api.json.JsonObject;
+import net.puffish.skillsmod.api.reward.Reward;
+import net.puffish.skillsmod.api.reward.RewardConfigContext;
+import net.puffish.skillsmod.api.reward.RewardDisposeContext;
+import net.puffish.skillsmod.api.reward.RewardUpdateContext;
+import net.puffish.skillsmod.api.util.Problem;
+import net.puffish.skillsmod.api.util.Result;
 
 import java.util.ArrayList;
 
 public class PassiveSkillReward implements Reward {
-
     public static final Identifier ID = SkillsMod.createIdentifier("passive_skill");
 
+    private final String passiveSkillId;
 
+	private PassiveSkillReward(String passiveSkillId) {
+		this.passiveSkillId = passiveSkillId;
+	}
 
-    public static void register() {
-        SkillsAPI.registerRewardWithData(ID, PassiveSkillReward::create);
+	public static void register() {
+        SkillsAPI.registerReward(ID, PassiveSkillReward::create);
     }
 
-    private static Result<PassiveSkillReward, Failure> create(JsonElementWrapper rootElement, ConfigContext context) {
-        return rootElement.getAsObject().andThen(PassiveSkillReward::create);
+    private static Result<PassiveSkillReward, Problem> create(RewardConfigContext context) {
+        return context.getData()
+                .andThen(JsonElement::getAsObject)
+                .andThen(PassiveSkillReward::create);
     }
 
-    private static Result<PassiveSkillReward, Failure> create(JsonObjectWrapper rootObject) {
-        ArrayList<Failure> failures = new ArrayList();
-        Result var10000 = rootObject.get("passive_skill").andThen((attributeElement) -> {
-            return JsonParseUtils.parseAttribute(attributeElement).andThen((attribute) -> {
-                return DefaultAttributeRegistry.get(EntityType.PLAYER).has(attribute) ? Result.success(attribute) : Result.failure(attributeElement.getPath().createFailure("Passive Skill Failure"));
-            });
-        });
-        return failures.isEmpty() ? Result.success(new PassiveSkillReward()) : Result.failure(Failure.fromMany(failures));
+    private static Result<PassiveSkillReward, Problem> create(JsonObject rootObject) {
+        var problems = new ArrayList<Problem>();
+
+        var optPassiveSkillId = rootObject.get("passive_skill")
+                .andThen(JsonElement::getAsString)
+                .ifFailure(problems::add)
+                .getSuccess();
+
+        if (problems.isEmpty()) {
+            return Result.success(new PassiveSkillReward(
+                    optPassiveSkillId.orElseThrow()
+            ));
+        } else {
+            return Result.failure(Problem.combine(problems));
+        }
     }
 
-    public void update(ServerPlayerEntity player, RewardContext context) {
+    @Override
+    public void update(RewardUpdateContext rewardUpdateContext) {
+        // nothing to do
     }
 
-    public void dispose(MinecraftServer server) {
+    @Override
+    public void dispose(RewardDisposeContext rewardDisposeContext) {
+        // nothing to do
     }
 }

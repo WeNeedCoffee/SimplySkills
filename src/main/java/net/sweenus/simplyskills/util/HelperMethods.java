@@ -32,10 +32,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.puffish.attributesmod.AttributesMod;
 import net.puffish.skillsmod.api.Category;
 import net.puffish.skillsmod.api.Skill;
 import net.puffish.skillsmod.api.SkillsAPI;
-import net.puffish.skillsmod.server.setup.SkillsAttributes;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.SpellSchools;
 import net.sweenus.simplyskills.SimplySkills;
@@ -88,34 +88,38 @@ public class HelperMethods {
 
     //Checks if skill is unlocked with presence checks.
     //If provided null for the skill argument, it will instead return if the category is unlocked.
-    public static boolean isUnlocked(String skillTree, String skill, LivingEntity livingEntity) {
-        Identifier tree = new Identifier(skillTree);
+    public static boolean isUnlocked(String skillTreeId, String skillId, LivingEntity livingEntity) {
         if (livingEntity instanceof ServerPlayerEntity serverPlayer) {
-            Optional<Category> categoryOptional = SkillsAPI.getCategory(tree);
-            if (categoryOptional.isPresent()) {
-                Category category = categoryOptional.get();
-                if (skill != null) {
-                    Optional<Skill> realSkillOptional = category.getSkill(skill);
-                    if (realSkillOptional.isPresent()) {
-                        Skill realSkill = realSkillOptional.get();
-                        Collection<Skill> skillList = category.getUnlockedSkills(serverPlayer);
-                        for (Skill value : skillList) {
-                            if (value.getId().equals(realSkill.getId())) {
-                                return true;
-                            }
-                        }
-                    }
-                } else {
-                    Collection<Category> categories = SkillsAPI.getUnlockedCategories(serverPlayer);
-                    for (Category value : categories) {
-                        if (value.getId().equals(tree)) {
-                            return true;
-                        }
-                    }
-                }
+            if (skillId == null){
+                // check if category is unlocked
+                return SkillsAPI.getCategory(new Identifier(skillTreeId))
+                        .map(category -> category.isUnlocked(serverPlayer))
+                        .orElse(false);
+            } else {
+                // check if skill is unlocked
+                return SkillsAPI.getCategory(new Identifier(skillTreeId))
+                        .flatMap(category -> category.getSkill(skillId))
+                        .map(skill -> skill.getState(serverPlayer) == Skill.State.UNLOCKED)
+                        .orElse(false);
             }
         }
         return false;
+    }
+    
+    //Checks if category has given skill unlocked
+    public static boolean hasUnlockedSkill(Category category, String skillId, LivingEntity livingEntity) {
+        if (livingEntity instanceof ServerPlayerEntity serverPlayer) {
+            return category.getSkill(skillId)
+                    .map(skill -> skill.getState(serverPlayer) == Skill.State.UNLOCKED)
+                    .orElse(false);
+        }
+        return false;
+    }
+
+    public static int countUnlockedSkills(String skillTreeId, ServerPlayerEntity serverPlayer) {
+        return SkillsAPI.getCategory(new Identifier(SimplySkills.MOD_ID, skillTreeId))
+                .map(category -> (int) category.streamUnlockedSkills(serverPlayer).count())
+                .orElse(0);
     }
 
     //Check if the target matches blacklisted entities (expand this to be configurable if there is demand)
@@ -484,7 +488,6 @@ public class HelperMethods {
     }
 
     public static boolean storeBuildTemplate( ServerPlayerEntity user, ItemStack stack ) {
-        List<Category> unlockedCategories = SkillsAPI.getUnlockedCategories(user);
         int categoryCount = 0;
         int skillCount = 0;
         String userUUID = user.getUuidAsString();
@@ -497,13 +500,11 @@ public class HelperMethods {
 
         NbtCompound nbt = stack.getOrCreateNbt();
 
-        for (Category category : unlockedCategories) {
+        for (Category category : (Iterable<Category>) SkillsAPI.streamUnlockedCategories(user)::iterator) {
             String categoryKey = "category" + categoryCount;
             nbt.putString(categoryKey, category.getId().toString());
 
-            Collection<Skill> unlockedSkills = category.getUnlockedSkills(user);
-
-            for (Skill skill : unlockedSkills) {
+            for (Skill skill : (Iterable<Skill>) category.streamUnlockedSkills(user)::iterator) {
                 String skillKey = "skill" + skillCount;
                 nbt.putString(skillKey, skill.getId());
                 skillCount++;
@@ -603,15 +604,10 @@ public class HelperMethods {
             }
         }
     }
-    public static int getUnspentPoints(ServerPlayerEntity user) {
-
-        List<Category> unlockedCategories = SkillsAPI.getUnlockedCategories(user);
-        int unspentSkillPoints = 0;
-
-        for (Category uc : unlockedCategories) {
-            unspentSkillPoints += uc.getPointsLeft(user);
-        }
-        return unspentSkillPoints;
+    public static int getUnspentPoints(ServerPlayerEntity player) {
+        return SkillsAPI.streamUnlockedCategories(player)
+                .mapToInt(category -> category.getPointsLeft(player))
+                .sum();
     }
 
     public static double getHighestAttributeValue(PlayerEntity player) {
@@ -622,7 +618,7 @@ public class HelperMethods {
         double soul = SpellPower.getSpellPower(SpellSchools.SOUL, player).baseValue();
         double healing = SpellPower.getSpellPower(SpellSchools.HEALING, player).baseValue();
         double lightning = SpellPower.getSpellPower(SpellSchools.LIGHTNING, player).baseValue();
-        double ranged = player.getAttributeValue(SkillsAttributes.RANGED_DAMAGE);
+        double ranged = player.getAttributeValue(AttributesMod.RANGED_DAMAGE);
 
         Double[] attributeValues = {attackDamage, toughness, fire, arcane, soul, healing, lightning, ranged};
 

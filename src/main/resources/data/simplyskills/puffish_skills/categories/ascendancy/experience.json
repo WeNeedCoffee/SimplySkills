@@ -10,12 +10,23 @@
 		{
 			"type": "puffish_skills:kill_entity",
 			"data": {
-				"parameters": {
+				"variables": {
 					"dropped_xp": {
-						"type": "entity_dropped_experience"
+						"operations": [
+							{
+								"type": "dropped_experience"
+							}
+						]
 					},
 					"max_health": {
-						"type": "entity_max_health"
+						"operations": [
+							{
+								"type": "killed_living_entity"
+							},
+							{
+								"type": "max_health"
+							}
+						]
 					}
 				},
 				"experience": [
