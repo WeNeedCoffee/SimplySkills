@@ -463,32 +463,32 @@ public class SignatureAbilities {
             case "BoneArmor" -> {
                 if (FabricLoader.getInstance().isModLoaded("prominent"))
                     cooldown = 40 * 1000;
-                else cooldown = 90 * 1000;
+                else cooldown = 70 * 1000;
                 type = "physical, buff, recovery";
                 cooldownType = "ascendancy";
             }
             case "CyclonicCleave" -> {
-                cooldown = 25 * 1000;
+                cooldown = 15 * 1000;
                 type = "physical, magic, melee, channel";
                 cooldownType = "ascendancy";
             }
             case "MagicCircle" -> {
-                cooldown = 60 * 1000;
+                cooldown = 40 * 1000;
                 type = "buff, magic";
                 cooldownType = "ascendancy";
             }
             case "ArcaneSlash" -> {
-                cooldown = 16 * 1000;
+                cooldown = 10 * 1000;
                 type = "magic, melee,";
                 cooldownType = "ascendancy";
             }
             case "Agony" -> {
-                cooldown = 60 * 1000;
+                cooldown = 40 * 1000;
                 type = "magic, debuff, healing";
                 cooldownType = "ascendancy";
             }
             case "Torment" -> {
-                cooldown = 60 * 1000;
+                cooldown = 40 * 1000;
                 type = "magic, debuff";
                 cooldownType = "ascendancy";
             }
@@ -498,12 +498,12 @@ public class SignatureAbilities {
                 cooldownType = "ascendancy";
             }
             case "Cataclysm" -> {
-                cooldown = 70 * 1000;
+                cooldown = 60 * 1000;
                 type = "magic, channel, elemental";
                 cooldownType = "ascendancy";
             }
             case "Ghostwalk" -> {
-                cooldown = 45 * 1000;
+                cooldown = 30 * 1000;
                 type = "magic, channel, soul";
                 cooldownType = "ascendancy";
             }
@@ -533,12 +533,15 @@ public class SignatureAbilities {
 
         // Calculations
         double spellHaste = SpellPower.getHaste(player);
-        sendCooldown = cooldown - (((spellHaste - 100) * spellHasteCDReduce) * 100);
+        sendCooldown = cooldown - (spellHaste * (2000 * spellHasteCDReduce));
 
         if (sendCooldown < (minimumCD) && useSuccess) sendCooldown = minimumCD;
         if (!useSuccess) sendCooldown = useDelay;
 
         //System.out.println("Ability type: " + type);
+        //System.out.println(cooldownType);
+        //System.out.println(cooldown);
+        //System.out.println(sendCooldown);
         sendCooldownPacket((ServerPlayerEntity) player, (int) sendCooldown, cooldownType);
     }
 

@@ -69,7 +69,7 @@ public class AscendancyAbilities {
 
     public static boolean magicCircle(PlayerEntity player) {
         player.addStatusEffect(new StatusEffectInstance(EffectRegistry.MAGICCIRCLE,
-                120 + (getAscendancyPoints(player)), 0, false, false, true));
+                240 + (getAscendancyPoints(player)), 0, false, false, true));
         player.addStatusEffect(new StatusEffectInstance(EffectRegistry.IMMOBILIZE,
                 25, 0, false, false, true));
         player.getWorld().playSoundFromEntity(null, player, SoundRegistry.SPELL_RADIANT_HIT,

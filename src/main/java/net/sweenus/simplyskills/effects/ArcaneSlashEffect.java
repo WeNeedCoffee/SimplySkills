@@ -50,6 +50,11 @@ public class ArcaneSlashEffect extends StatusEffect {
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity instanceof PlayerEntity player && FabricLoader.getInstance().isModLoaded("simplyswords"))
             SimplySwordsGemEffects.warStandard(player);
+        if (entity instanceof PlayerEntity player) {
+            int chance = entity.getRandom().nextInt(100);
+            if (chance < 80)
+                AscendancyAbilities.arcaneSlash(player);
+        }
 
         super.onRemoved(entity, attributes, amplifier);
     }

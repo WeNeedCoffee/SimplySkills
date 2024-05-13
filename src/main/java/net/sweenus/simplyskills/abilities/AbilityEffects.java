@@ -502,8 +502,16 @@ public class AbilityEffects {
         list.add("simplyskills:arcane_bolt");
         list.add("simplyskills:arcane_bolt_lesser");
         list.add("simplyskills:ice_comet");
-        list.add("simplyskills:fire_meteor");
+        list.add("simplyskills:fire_meteor_small");
         list.add("simplyskills:static_discharge");
+
+        if (player.hasStatusEffect(EffectRegistry.SPELLWEAVER)) {
+            list.add("simplyskills:physical_swordrain");
+            list.add("simplyskills:arcane_slash_projectile");
+            list.add("simplyskills:righteous_hammer_projectile");
+            list.add("simplyskills:lightning_ball_homing");
+            list.add("simplyskills:fire_meteor_large");
+        }
         int spellChoice = player.getRandom().nextInt(list.size());
 
         if ((target instanceof LivingEntity livingTarget) && player.getRandom().nextInt(100) < chance) {
