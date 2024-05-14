@@ -117,6 +117,8 @@ public class AscendancyAbilities {
     }
 
     public static void agonyEffect(PlayerEntity playerAttacker, LivingEntity livingEntity) {
+        if (!(livingEntity.getStatusEffect(EffectRegistry.AGONY) instanceof SimplyStatusEffectInstance))
+            return;
         SimplyStatusEffectInstance agonyEffect = (SimplyStatusEffectInstance) livingEntity.getStatusEffect(EffectRegistry.AGONY);
         livingEntity.timeUntilRegen = 0;
         livingEntity.damage(playerAttacker.getDamageSources().indirectMagic(playerAttacker, playerAttacker), (float) (0.1 * HelperMethods.getHighestAttributeValue(playerAttacker)));
@@ -165,6 +167,8 @@ public class AscendancyAbilities {
     public static boolean tormentEffect(PlayerEntity player, DamageSource source, float amount) {
         if (source.getAttacker() instanceof LivingEntity attacker) {
             if (attacker.hasStatusEffect(EffectRegistry.TORMENT)) {
+                if (!(attacker.getStatusEffect(EffectRegistry.TORMENT) instanceof SimplyStatusEffectInstance))
+                    return false;
                 SimplyStatusEffectInstance tormentEffect = (SimplyStatusEffectInstance) attacker.getStatusEffect(EffectRegistry.TORMENT);
                 if (tormentEffect.getSourceEntity() instanceof PlayerEntity sourcePlayer && sourcePlayer == player) {
                     attacker.damage(source, amount);
