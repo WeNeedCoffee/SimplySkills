@@ -43,13 +43,14 @@ dependencies {
     modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-fabric")
     //modImplementation files("build/libs/dependencies/spell_engine-0.12.01.20.1.jar")
 
-    //modImplementation "curse.maven:simply-swords-659887:${project.simplyswords_version}"
-    modImplementation files("build/libs/dependencies/simplyswords-1.55.0-1.20.1.jar")
+    modImplementation "curse.maven:simply-swords-659887:${project.simplyswords_version}"
+    //modImplementation files("build/libs/dependencies/simplyswords-1.55.0-1.20.1.jar")
 
     modImplementation "curse.maven:paladins-and-priests-856548:${project.paladins_version}"
     //modImplementation files("build/libs/dependencies/paladins-1.0.21.20.1.jar")
 
-    modImplementation files("build/libs/dependencies/amethyst_core-1.4.101.20.1.jar")
+    //modImplementation files("build/libs/dependencies/amethyst_core-1.4.101.20.1.jar")
+    modImplementation "curse.maven:amethyst-core-639888:${project.amethyst_version}"
 
     modImplementation "curse.maven:archers-932359:${project.archers_version}"
 
